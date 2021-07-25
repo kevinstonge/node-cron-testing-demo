@@ -2,8 +2,7 @@ const db = require('knex')(require('./knexfile.js'));
 
 const addItem = async (item) => {
   try {
-    await db("TestTable").insert(item);
-    return true;
+    return await db("TestTable").insert(item);
   } catch (err) {
     console.log(err);
     throw err;
@@ -12,12 +11,20 @@ const addItem = async (item) => {
 
 const deleteAllItems = async () => {
   try {
-    await db("TestTable").del();
-    return true;
+    return await db("TestTable").del();
   } catch (err) {
     console.log(err);
     throw err;
   }
 }
 
-module.exports = { addItem, deleteAllItems }
+const get = async () => {
+  try {
+    return await db("TestTable");
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+module.exports = { addItem, deleteAllItems, get, db }

@@ -11,8 +11,11 @@ const schedule = [
     eventTitle: "T",
     cronString: "0 9 * * Tuesday",
     callback: async () => { 
-      await db.addItem({"TestItem": "T"});
-      await db.deleteAllItems();
+      await db.db.transaction((trx) => {
+        return trx("TestTable").del().then(()=>
+          trx("TestTable").insert({"TestItem": "T"})
+        );
+      });
     }
   },
   { 
